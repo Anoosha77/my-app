@@ -14,6 +14,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useState } from "react"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select"
 
 const pieData = [
   { name: "Electronics", value: 400 },
@@ -25,16 +34,49 @@ const pieData = [
 const COLORS = ["#3b82f6", "#10b981", "#facc15", "#f43f5e"]
 
 export default function ChartPie() {
+  const [selectedCategory, setSelectedCategory] = useState("All")
+
+  // Highlight only selected, dim others
+  const highlightedData = pieData.map((item) => ({
+    ...item,
+    isDimmed: selectedCategory !== "All" && item.name !== selectedCategory,
+  }))
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Product Categories</CardTitle>
+    <Card className="rounded-2xl shadow-sm">
+      <CardHeader className="pb-2">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+          <CardTitle className="text-lg font-semibold text-gray-800">
+            Product Categories {selectedCategory !== "All" && `- ${selectedCategory}`}
+          </CardTitle>
+
+          {/* Filter Dropdown */}
+          <div className="flex flex-col w-[160px]">
+            <Label className="text-xs text-muted-foreground mb-1">
+              Filter by Category
+            </Label>
+            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <SelectTrigger className="h-9 text-sm w-full border rounded-md">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent className="w-full">
+                <SelectItem value="All">All</SelectItem>
+                {pieData.map((item) => (
+                  <SelectItem key={item.name} value={item.name}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
       </CardHeader>
-      <CardContent className="h-[300px]">
+
+      <CardContent className="h-[300px] pt-2">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            <Pie   
-              data={pieData}
+            <Pie
+              data={highlightedData}
               dataKey="value"
               nameKey="name"
               cx="50%"
@@ -42,12 +84,16 @@ export default function ChartPie() {
               outerRadius={80}
               label
             >
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              {highlightedData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                  fillOpacity={entry.isDimmed ? 0.3 : 1}
+                />
               ))}
             </Pie>
             <Tooltip formatter={(value) => `Rs. ${value}`} />
-            <Legend />
+            <Legend layout="horizontal" verticalAlign="bottom" align="center" />
           </PieChart>
         </ResponsiveContainer>
       </CardContent>

@@ -2,15 +2,14 @@
 // import { axiosInstanceAdmin } from "../instances/instances";
 // import { axiosInstanceUser } from "../instances/instances";
 
-import { axiosInstance } from "../instances/instances";
-import { University } from "@/types/university";
+// core/api/api.ts
+import axiosInstance from "../instances/instances";
 
-export const getUniversities = async (search: string = ""): Promise<University[]> => {
-  const response = await axiosInstance.get(
-    `/search?country=United%20States&name=${search}`
-  );
+export const pingServer = async () => {
+  const response = await axiosInstance.get("/api/v1");
   return response.data;
 };
+
 
 // @/core/api/api.ts
 

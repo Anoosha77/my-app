@@ -53,26 +53,26 @@ function App() {
 }
 
 export default App;
-// LOGIN
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Login from "@/pages/login";
-// import Register from "@/pages/Register";
-// import Otp from "./pages/Otp";
 
 
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Login />} />
-//         {/* <Route path="/register" element={<Register />} /> */}
-//         <Route path="/otp" element={<Otp />} />
 
+// PING
+// import { useEffect } from "react";
+// import { pingServer } from "@/@core/api/api";
 
-//         {/* Future: Add dashboard or protected routes */}
-//       </Routes>
-//     </Router>
-//   );
+// export default function Dashboard() {
+//   useEffect(() => {
+//     const testPing = async () => {
+//       try {
+//         const res = await pingServer();
+//         console.log("✅ Ping Success:", res);
+//       } catch (err) {
+//         console.error("❌ Ping Failed:", err);
+//       }
+//     };
+
+//     testPing();
+//   }, []);
+
+//   return <div>Dashboard Loaded</div>;
 // }
-
-// export default App;
