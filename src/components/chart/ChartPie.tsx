@@ -33,7 +33,7 @@ export default function ChartPie() {
       <CardContent className="h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            <Pie
+            <Pie   
               data={pieData}
               dataKey="value"
               nameKey="name"

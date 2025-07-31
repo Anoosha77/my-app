@@ -45,7 +45,7 @@ function App() {
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/products" element={<Products />} />
-
+2
         </Route>
       </Routes>
     </BrowserRouter>
