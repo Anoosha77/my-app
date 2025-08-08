@@ -1,3 +1,4 @@
+// src/pages/Login.tsx
 import { useState } from "react";
 import { useLogin } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -10,44 +11,47 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
+import { useUserStore } from "@/store/userStore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
 
-  const {
-    mutate: loginMutate,
-    isPending: loginLoading,
-  } = useLogin();
+  const { mutate: loginMutate, isPending: loginLoading } = useLogin();
 
-const handleLogin = () => {
-  if (!email || !password) {
-    alert("❗Please enter both email and password");
-    return;
-  }
+  const setUser = useUserStore((state) => state.setUser);
 
-  // ✅ Log the values you’re sending
-  console.log("🔐 Logging in with:", { email, password });
-
-  loginMutate(
-    { email, password },
-    {
-      onSuccess: () => {
-        localStorage.setItem("otp_email", email);
-        alert("✅ Login successful! OTP sent.");
-        navigate("/verify-otp");
-      },
-      onError: (error: any) => {
-        console.error("❌ Login error:", error); // Optional: inspect the error
-        alert(error?.response?.data?.message || "Login failed");
-      },
+  const handleLogin = () => {
+    if (!email || !password) {
+      alert("❗ Please enter both email and password");
+      return;
     }
-  );
-};
 
+    loginMutate(
+      { email, password },
+      {
+        onSuccess: (response) => {
+          const { accessToken, user } = response.data;
+          setUser(user, accessToken);
 
+          alert("✅ Login successful");
+
+          if (user.verified) {
+            localStorage.removeItem("otp_email");
+            navigate("/dashboard", { replace: true });
+          } else {
+            localStorage.setItem("otp_email", user.email);
+            navigate("/verify-otp", { replace: true });
+          }
+        },
+        onError: (error: any) => {
+          console.error("❌ Login error:", error);
+          alert(error?.response?.data?.message || "Login failed");
+        },
+      }
+    );
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
@@ -72,7 +76,6 @@ const handleLogin = () => {
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
           />
-
           <Button
             onClick={handleLogin}
             disabled={loginLoading}
@@ -83,12 +86,12 @@ const handleLogin = () => {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-2">
-          <div className="text-sm text-muted-foreground text-center">
+          {/* <div className="text-sm text-muted-foreground text-center">
             Or continue with
           </div>
           <Button variant="outline" className="w-full">
-            GitHub
-          </Button>
+            Google
+          </Button> */}
           <p className="text-xs text-muted-foreground text-center mt-2">
             By clicking continue, you agree to our{" "}
             <span className="underline">Terms of Service</span> and{" "}

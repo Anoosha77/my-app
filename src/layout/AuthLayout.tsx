@@ -31,7 +31,7 @@ export default AuthLayout
 // export default function MainLayout() {
 //   const { pathname } = useLocation();
 
-//   return (
+//   return ( 
 //     <SidebarProvider>
 //       <Sidebar>
 //         <SidebarHeader className="flex items-left px-4 py-3 gap-2">

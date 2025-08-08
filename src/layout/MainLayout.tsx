@@ -11,7 +11,13 @@ import {
   SidebarProvider,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { LayoutDashboard, ReceiptText, User2, Package } from "lucide-react";
+import {
+  LayoutDashboard,
+  ReceiptText,
+  Package,
+  User2,
+  Settings,
+} from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
 export default function LoggedInLayout() {
@@ -37,6 +43,7 @@ export default function LoggedInLayout() {
                   )}
                 </NavLink>
               </SidebarMenuItem>
+
               <SidebarMenuItem>
                 <NavLink to="/expenses" className="w-full">
                   {({ isActive }) => (
@@ -47,16 +54,7 @@ export default function LoggedInLayout() {
                   )}
                 </NavLink>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <NavLink to="/profile" className="w-full">
-                  {({ isActive }) => (
-                    <SidebarMenuButton isActive={isActive} tooltip="Profile">
-                      <User2 className="mr-2" />
-                      <SidebarLabel>Profile</SidebarLabel>
-                    </SidebarMenuButton>
-                  )}
-                </NavLink>
-              </SidebarMenuItem>
+
               <SidebarMenuItem>
                 <NavLink to="/products" className="w-full">
                   {({ isActive }) => (
@@ -67,6 +65,30 @@ export default function LoggedInLayout() {
                   )}
                 </NavLink>
               </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <NavLink to="/profile" className="w-full">
+                  {({ isActive }) => (
+                    <SidebarMenuButton isActive={isActive} tooltip="Profile">
+                      <User2 className="mr-2" />
+                      <SidebarLabel>Profile</SidebarLabel>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+
+              {/* ✅ Settings Menu Item */}
+              <SidebarMenuItem>
+                <NavLink to="/settings" className="w-full">
+                  {({ isActive }) => (
+                    <SidebarMenuButton isActive={isActive} tooltip="Settings">
+                      <Settings className="mr-2" />
+                      <SidebarLabel>Settings</SidebarLabel>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+
             </SidebarMenu>
           </SidebarGroup>
         </SidebarContent>

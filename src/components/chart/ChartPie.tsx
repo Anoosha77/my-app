@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   PieChart,
@@ -7,59 +7,57 @@ import {
   ResponsiveContainer,
   Tooltip,
   Legend,
-} from "recharts"
+} from "recharts";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { useState } from "react"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 const pieData = [
   { name: "Electronics", value: 400 },
   { name: "Clothing", value: 300 },
   { name: "Food", value: 200 },
   { name: "Books", value: 100 },
-]
+];
 
-const COLORS = ["#3b82f6", "#10b981", "#facc15", "#f43f5e"]
+const COLORS = ["#3b82f6", "#10b981", "#facc15", "#f43f5e"];
 
 export default function ChartPie() {
-  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  // Highlight only selected, dim others
   const highlightedData = pieData.map((item) => ({
     ...item,
     isDimmed: selectedCategory !== "All" && item.name !== selectedCategory,
-  }))
+  }));
 
   return (
     <Card className="rounded-2xl shadow-sm">
       <CardHeader className="pb-2">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-          <CardTitle className="text-lg font-semibold text-gray-800">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <CardTitle className="text-base font-semibold text-gray-800 dark:text-white">
             Product Categories {selectedCategory !== "All" && `- ${selectedCategory}`}
           </CardTitle>
 
-          {/* Filter Dropdown */}
-          <div className="flex flex-col w-[160px]">
+          <div className="w-full sm:w-auto flex flex-col">
             <Label className="text-xs text-muted-foreground mb-1">
               Filter by Category
             </Label>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="h-9 text-sm w-full border rounded-md">
+              <SelectTrigger className="h-8 text-xs w-full sm:min-w-[140px]">
                 <SelectValue placeholder="All" />
               </SelectTrigger>
-              <SelectContent className="w-full">
+              <SelectContent>
                 <SelectItem value="All">All</SelectItem>
                 {pieData.map((item) => (
                   <SelectItem key={item.name} value={item.name}>
@@ -72,7 +70,7 @@ export default function ChartPie() {
         </div>
       </CardHeader>
 
-      <CardContent className="h-[300px] pt-2">
+      <CardContent className="h-[300px] pt-0">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -81,7 +79,7 @@ export default function ChartPie() {
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={80}
+              outerRadius={90}
               label
             >
               {highlightedData.map((entry, index) => (
@@ -98,5 +96,5 @@ export default function ChartPie() {
         </ResponsiveContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
